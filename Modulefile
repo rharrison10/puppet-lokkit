@@ -1,0 +1,10 @@
+name 'rharrison-lokkit'
+version '0.0.1'
+
+author 'Russell Harrison'
+license 'GPLv3+'
+project_page ''
+source ''
+summary 'Manage iptables firewall using lokkit'
+description 'Use lokkit to manage the iptables firewall.  More conveinient than working with iptables directly.'
+dependency 'puppetlabs/stdlib', '>=2.2.0'

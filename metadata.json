@@ -1,0 +1,30 @@
+{
+  "name": "rharrison-lokkit",
+  "author": "Russell Harrison",
+  "description": "Use lokkit to manage the iptables firewall.  More conveinient than working with iptables directly.",
+  "license": "GPLv3+",
+  "project_page": "",
+  "source": "",
+  "summary": "Manage iptables firewall using lokkit",
+  "version": "0.0.1",
+  "checksums": {
+    "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
+    "LICENSE": "d32239bcb673463ab874e80d47fae504",
+    "Modulefile": "da2a70d9de63d5d6a4a2d4f3c8b8d4dc",
+    "README.md": "0b668e5061b11c4692e71de3e41e5cc1",
+    "manifests/custom.pp": "32cde9008f2d96013a12aca68c2a649a",
+    "manifests/init.pp": "037373fb942d8cac77eb834690a19f2b",
+    "manifests/params.pp": "9a6c1d3e16c16f503cc2e92fa88d8725",
+    "manifests/ports.pp": "0ca973a4b901c07deffea30402966179",
+    "manifests/services.pp": "4443225af3cb8a7325896f9d1d20d533",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
+    "tests/init.pp": "a275309dbc161a03ea8c9ed513cd6db5"
+  },
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "\u003e\u003d2.2.0"
+    }
+  ]
+}
