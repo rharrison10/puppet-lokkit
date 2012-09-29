@@ -93,7 +93,7 @@ define lokkit::ports (
     $udpPorts_switches  = ''
   }
 
-  $cmd_args = shellquote($tcpPorts_switches, $udpPorts_switches)
+  $cmd_args = "${tcpPorts_switches} ${udpPorts_switches}"
   exec { "lokkit_ports ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
     logoutput => on_failure,
