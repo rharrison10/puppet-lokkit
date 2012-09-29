@@ -1,12 +1,10 @@
-# rharrison-lokkit
+# lokkit
 
-Manage iptables with lokkit.  This class uses the `lokkit` command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the `lokkit::custom` defined type.
+Manage iptables with lokkit.  This module uses the `lokkit` command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the `lokkit::custom` defined type.
 
-**Note** To ensure this module will not prevent access to a node the `$lokkit::params::cmd` variable includes the `-s ssh` switch to make sure ssh access is always available.
+**Note**: To ensure this module will not prevent access to a node the `$lokkit::params::cmd` variable includes the `-s ssh` switch to make sure ssh access is always available.
 
-## Warning
-
-This module will clear any existing iptables rules you already have in place. Currently it cannot be used with another means of managing iptables
+**Warning**: This module will clear any existing iptables rules you already have in place. Currently it cannot be used with another means of managing iptables
 
 ## Defined Types
 
@@ -32,7 +30,7 @@ String containing the content of the custom rules file.
 
 The source location of a file containing the custom rules.
 
-**Warning** You may provide a value for `content` or `source` *not* both.
+**Warning**: You may provide a value for `content` or `source` *not* both.
 
 #### Examples
 
@@ -66,7 +64,7 @@ This will allow access to specific ports and protocols. *Note* this allows acces
 
 ##### tcpPorts
 
->An array of ports to allow incoming TCP traffic on. Ports may be specified individually or as a range of ports. e.g. `[ '8080', '9101-9103' ]`.
+An array of ports to allow incoming TCP traffic on. Ports may be specified individually or as a range of ports. e.g. `[ '8080', '9101-9103' ]`.
 
 ##### udpPorts
 
@@ -81,10 +79,8 @@ An array of ports to allow incoming UDP traffic on. Ports may be specified indiv
 
 ## TODO
 * Blocking ICMP types
-* Interface management 
+* Interface management
 * Port forwarding
+* Migrate defined types to plugins
 
 Currently this module is developed against RHEL and should also work with Fedora and CentOS.  I don't use other distros so I'm unable to test them.  I will accept pull requests for patches to support your favorite distro of choice.
-
-
-
