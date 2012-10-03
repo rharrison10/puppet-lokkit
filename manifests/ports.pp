@@ -53,17 +53,11 @@ define lokkit::ports (
     case type($tcpPorts) {
       string: {
         $tcpPorts_switches  = regsubst(
-          split( $tcpPorts, ' ' ),
-          '^\d+$|^\d+-\d+$',
-          '--port=\0:tcp'
-        )
+          $tcpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:tcp', 'G' )
       }
       array: {
-        $tcpPorts_switches  = regsubst(
-          $tcpPorts,
-          '^\d+$|^\d+-\d+$',
-          '--port=\0:tcp'
-        )
+        $tcpPorts_switches  = join(
+          regsubst( $tcpPorts, '^\d+$|^\d+-\d+$', '--port=\0:tcp' ), ' ' )
       }
       default: { fail('tcpPorts must be an array or string') }
     }
@@ -75,17 +69,11 @@ define lokkit::ports (
     case type($udpPorts) {
       string: {
         $udpPorts_switches  = regsubst(
-          split( $udpPorts, ' ' ),
-          '^\d+$|^\d+-\d+$',
-          '--port=\0:udp'
-        )
+          $udpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:udp', 'G' )
       }
       array: {
-        $udpPorts_switches  = regsubst(
-          $udpPorts,
-          '^\d+$|^\d+-\d+$',
-          '--port=\0:udp'
-        )
+        $udpPorts_switches  = join(
+          regsubst( $udpPorts, '^\d+$|^\d+-\d+$', '--port=\0:udp' ), ' ' )
       }
       default: { fail('udpPorts must be an array or string') }
     }
