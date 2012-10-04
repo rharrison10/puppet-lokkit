@@ -13,7 +13,7 @@
     "Modulefile": "e169abaa882bac67723c517bfaa3873f",
     "README.md": "0bbcc484b493b9df0aec971c5e313b87",
     "manifests/custom.pp": "32cde9008f2d96013a12aca68c2a649a",
-    "manifests/init.pp": "037373fb942d8cac77eb834690a19f2b",
+    "manifests/init.pp": "3859543f39085354c0957fcd7a8a6f0f",
     "manifests/params.pp": "9a6c1d3e16c16f503cc2e92fa88d8725",
     "manifests/ports.pp": "c3b8299e03230c9735bb73fa0fb9dc69",
     "manifests/services.pp": "4443225af3cb8a7325896f9d1d20d533",

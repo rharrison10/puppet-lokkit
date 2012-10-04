@@ -40,6 +40,31 @@ class lokkit {
     ensure  => present,
   }
 
+# This is a bit of a hack but is intended to keep iptables from restarting on
+# every puppet run. We'll make a copy of the existing iptables rules before
+# lokkit runs to compare the new configuration to. First we need to make sure
+# all the files are in place.
+  file { [
+    '/etc/sysconfig/iptables',
+    '/etc/sysconfig/iptables.old',
+    '/etc/sysconfig/iptables.pre_lokkit',
+    '/etc/sysconfig/system-config-firewall',
+    '/etc/sysconfig/system-config-firewall.old',
+  ]:
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    require => Package[$lokkit::params::package],
+  }
+
+# Now lets copy the current iptables rules if they don't match the previous copy
+  exec { 'iptables.pre_lokkit':
+    command => 'cp /etc/sysconfig/iptables{,.pre_lokkit}',
+    unless  => 'diff -q /etc/sysconfig/iptables{,.pre_lokkit} > /dev/null',
+    require => File['/etc/sysconfig/iptables.pre_lokkit'],
+  }
+
 # Clear the existing firewall configuration so that we can start from scratch
 # changes are not applied until all lokkit defined resources have completed.
 # Note $lokkit::params::cmd always enables ssh so you don't lose connection
@@ -47,7 +72,7 @@ class lokkit {
   exec { 'lokkit_clear':
     command   => "${lokkit::params::cmd} -n -f",
     logoutput => on_failure,
-    require   => Package[$lokkit::params::package],
+    require   => Exec['iptables.pre_lokkit'],
     notify    => Exec['lokkit_update'],
   }
 
@@ -58,6 +83,7 @@ class lokkit {
     command     => "${lokkit::params::cmd} --update",
     logoutput   => on_failure,
     refreshonly => true,
+    unless      => 'diff -q /etc/sysconfig/iptables{,.pre_lokkit} > /dev/null',
   }
 }
 
