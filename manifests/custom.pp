@@ -84,7 +84,7 @@ define lokkit::custom (
       File[$rules_file],
       Exec['lokkit_clear'],
     ],
-    notify    => Exec['lokkit_update'],
+    before    => Exec['lokkit_update'],
   }
 
 }

@@ -86,6 +86,6 @@ define lokkit::ports (
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
     logoutput => on_failure,
     subscribe => Exec['lokkit_clear'],
-    notify    => Exec['lokkit_update'],
+    before    => Exec['lokkit_update'],
   }
 }

@@ -73,7 +73,7 @@ class lokkit {
     command   => "${lokkit::params::cmd} -n -f",
     logoutput => on_failure,
     require   => Exec['iptables.pre_lokkit'],
-    notify    => Exec['lokkit_update'],
+    before    => Exec['lokkit_update'],
   }
 
 # Update and restart the firewall
@@ -82,7 +82,6 @@ class lokkit {
   exec { 'lokkit_update':
     command     => "${lokkit::params::cmd} --update",
     logoutput   => on_failure,
-    refreshonly => true,
     unless      => 'diff -q /etc/sysconfig/iptables{,.pre_lokkit} > /dev/null',
   }
 }
