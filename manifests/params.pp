@@ -36,5 +36,5 @@ class lokkit::params {
   $package = 'system-config-firewall-base'
   $cmd = '/usr/sbin/lokkit -q -s ssh'
   $config_dir = '/etc/sysconfig'
-  $config_file = "${config_dir}/${config_file}"
+  $config_file = "${config_dir}/system-config-firewall"
 }

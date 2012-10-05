@@ -48,8 +48,8 @@ class lokkit {
     '/etc/sysconfig/iptables',
     '/etc/sysconfig/iptables.old',
     '/etc/sysconfig/iptables.pre_lokkit',
-    '/etc/sysconfig/system-config-firewall',
-    '/etc/sysconfig/system-config-firewall.old',
+    $lokkit::params::config_file,
+    "${lokkit::params::config_file}.old",
   ]:
     ensure  => 'file',
     owner   => 'root',
