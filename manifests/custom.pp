@@ -80,10 +80,8 @@ define lokkit::custom (
   exec { "lokkit_custom ${name}":
     command   => "${cmd} --custom-rules=${type}:${table}:${rules_file}",
     logoutput => on_failure,
-    subscribe => [
-      File[$rules_file],
-      Exec['lokkit_clear'],
-    ],
+    subscribe => File[$rules_file],
+    require   => Exec['lokkit_clear'],
     before    => Exec['lokkit_update'],
   }
 
