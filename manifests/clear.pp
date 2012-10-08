@@ -24,7 +24,6 @@
 #  schedule { 'working_hours':
 #    period  => daily,
 #    range   => '9-17',
-#    weekday => ['Mon', 'Tue', 'Wed', 'Thu', 'Fri' ],
 #  }
 #
 #  class { 'lokkit::clear':
@@ -56,6 +55,7 @@ class lokkit::clear (
   $schedule = 'puppet'
 ) {
   include ::lokkit
+  include lokkit::params
 
   exec { 'lokkit_clear':
     command   => "${lokkit::params::cmd} -n -f",

@@ -80,13 +80,12 @@ define lokkit::custom (
   $lokkit_config = $lokkit::params::config_file
 
   exec { "lokkit_custom ${name}":
-    command   => "$${lokkit::params::cmd} -n ${cmd_args}",
-    unless    =>
-      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
+    command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
     subscribe => File[$rules_file],
     require   => [
-      File['/usr/local/bin/lokkit_check_config.sh'],
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
       Exec['lokkit_clear'],
     ],
     before    => Exec['lokkit_update'],

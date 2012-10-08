@@ -53,15 +53,9 @@ define lokkit::services (
   }
 
   case type($services_real) {
-    string  : {
-      $service_switches = prefix(split($services_real, ' '), '--service=')
-    }
-    array   : {
-      $service_switches = prefix($services_real, '--service=')
-    }
-    default : {
-      fail('services must be an array or string')
-    }
+    string  : { $service_switches = prefix(split($services_real, ' '), '--service=') }
+    array   : { $service_switches = prefix($services_real, '--service=') }
+    default : { fail('services must be an array or string') }
   }
 
   $cmd_args      = shellquote($service_switches)
@@ -69,11 +63,10 @@ define lokkit::services (
 
   exec { "lokkit_services ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
-    unless    =>
-      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
+    unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
     require   => [
-      File['/usr/local/bin/lokkit_check_config.sh'],
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
       Exec['lokkit_clear'],
     ],
     before    => Exec['lokkit_update'],

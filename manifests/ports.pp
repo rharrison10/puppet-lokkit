@@ -51,17 +51,9 @@ define lokkit::ports (
 
   if $tcpPorts {
     case type($tcpPorts) {
-      string  : {
-        $tcpPorts_switches = regsubst($tcpPorts, '\d+-\d+|\d+[^- ]',
-        '--port=\0:tcp', 'G')
-      }
-      array   : {
-        $tcpPorts_switches = join(regsubst($tcpPorts, '^\d+$|^\d+-\d+$',
-        '--port=\0:tcp'), ' ')
-      }
-      default : {
-        fail('tcpPorts must be an array or string')
-      }
+      string  : { $tcpPorts_switches = regsubst($tcpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:tcp', 'G') }
+      array   : { $tcpPorts_switches = join(regsubst($tcpPorts, '^\d+$|^\d+-\d+$', '--port=\0:tcp'), ' ') }
+      default : { fail('tcpPorts must be an array or string') }
     }
   } else {
     $tcpPorts_switches = ''
@@ -69,17 +61,9 @@ define lokkit::ports (
 
   if $udpPorts {
     case type($udpPorts) {
-      string  : {
-        $udpPorts_switches = regsubst($udpPorts, '\d+-\d+|\d+[^- ]',
-        '--port=\0:udp', 'G')
-      }
-      array   : {
-        $udpPorts_switches = join(regsubst($udpPorts, '^\d+$|^\d+-\d+$',
-        '--port=\0:udp'), ' ')
-      }
-      default : {
-        fail('udpPorts must be an array or string')
-      }
+      string  : { $udpPorts_switches = regsubst($udpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:udp', 'G') }
+      array   : { $udpPorts_switches = join(regsubst($udpPorts, '^\d+$|^\d+-\d+$', '--port=\0:udp'), ' ') }
+      default : { fail('udpPorts must be an array or string') }
     }
   } else {
     $udpPorts_switches = ''
@@ -90,11 +74,10 @@ define lokkit::ports (
 
   exec { "lokkit_ports ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
-    unless    =>
-      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
+    unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
     require   => [
-      File['/usr/local/bin/lokkit_check_config.sh'],
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
       Exec['lokkit_clear'],
     ],
     before    => Exec['lokkit_update'],
