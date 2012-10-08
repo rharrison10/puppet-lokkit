@@ -1,22 +1,27 @@
 {
   "name": "rharrison-lokkit",
-  "author": "Russell Harrison",
-  "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",
-  "license": "GPLv3+",
-  "project_page": "https://github.com/rharrison10/puppet-lokkit",
-  "source": "https://github.com/rharrison10/puppet-lokkit",
-  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
   "version": "0.0.1",
+  "source": "https://github.com/rharrison10/puppet-lokkit",
+  "author": "Russell Harrison",
+  "license": "GPLv3+",
+  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
+  "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",
+  "project_page": "https://github.com/rharrison10/puppet-lokkit",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=2.2.0"
+    }
+  ],
+  "types": [
+
+  ],
   "checksums": {
-    ".project": "6916ee3e1756378743d70ade9f722fcb",
-    ".settings/de.loskutov.anyedit.AnyEditTools.prefs": "6423166508285838113fb6daaeb143fc",
-    ".settings/org.eclipse.ltk.core.refactoring.prefs": "ef84b6c98e5692353b06f74dc76c35fb",
     "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
     "LICENSE": "d32239bcb673463ab874e80d47fae504",
     "Modulefile": "e169abaa882bac67723c517bfaa3873f",
     "README.md": "0bbcc484b493b9df0aec971c5e313b87",
     "files/lokkit_check_config.sh": "4d4531feccf727a3e452ff429595dfee",
-    "files/lokkit_check_config.sh.snapshot": "b1c9469994e593f34e580b5298e27731",
     "manifests/clear.pp": "0bf03c5aeb735739e996f4a5282ed1cb",
     "manifests/custom.pp": "9e436abe6ff273d4f1766dfb62ff2cd8",
     "manifests/init.pp": "c1f8b01c9c62bc4f4568c7e4d6bc83d1",
@@ -26,11 +31,5 @@
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
     "tests/init.pp": "a275309dbc161a03ea8c9ed513cd6db5"
-  },
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": "\u003e\u003d2.2.0"
-    }
-  ]
+  }
 }
