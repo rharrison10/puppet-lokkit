@@ -22,7 +22,7 @@
     "Modulefile": "e169abaa882bac67723c517bfaa3873f",
     "README.md": "0bbcc484b493b9df0aec971c5e313b87",
     "files/lokkit_chkconf_diff.sh": "ce7a5385cf98972b4b66bf3f48c914e0",
-    "files/lokkit_chkconf_present.sh": "4d4531feccf727a3e452ff429595dfee",
+    "files/lokkit_chkconf_present.sh": "535b9e3b28182409532fd13c7280a74e",
     "manifests/clear.pp": "a1e452ac7d934bb0252fd0c2e02d3adc",
     "manifests/custom.pp": "c8bb1b0ca3320e2b86e0fef06ca31c8b",
     "manifests/init.pp": "a02a17842587ebe336a7b268bdf53aa3",

@@ -13,7 +13,7 @@ fi
 
 for switch in "$@" ; do
   grep -q "^${switch}" $CONFIG_FILE || {
-    echo "${switch} not found in ${CONFIG_FILE" >&2
+    echo "${switch} not found in ${CONFIG_FILE}" >&2
     exit 1
   }
 done
