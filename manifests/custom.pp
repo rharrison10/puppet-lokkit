@@ -51,10 +51,10 @@
 # with rharrison-lokkit. If not, see http://www.gnu.org/licenses/.
 #
 define lokkit::custom (
-  $type     = 'ipv4',
-  $table    = 'filter',
-  $content  = undef,
-  $source   = undef
+  $type    = 'ipv4',
+  $table   = 'filter',
+  $content = undef,
+  $source  = undef
 ) {
   include lokkit
   include lokkit::params
@@ -66,7 +66,8 @@ define lokkit::custom (
   }
 
   $rules_file = "${lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
-  file { $rules_file :
+
+  file { $rules_file:
     ensure  => file,
     owner   => 'root',
     group   => 'root',
@@ -75,13 +76,19 @@ define lokkit::custom (
     source  => $source,
   }
 
-  $file_ensure = file
-  $cmd = "${lokkit::params::cmd} -n"
+  $cmd_args      = "--custom-rules=${type}:${table}:${rules_file}"
+  $lokkit_config = $lokkit::params::config_file
+
   exec { "lokkit_custom ${name}":
-    command   => "${cmd} --custom-rules=${type}:${table}:${rules_file}",
+    command   => "$${lokkit::params::cmd} -n ${cmd_args}",
+    unless    =>
+      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
     subscribe => File[$rules_file],
-    require   => Exec['lokkit_clear'],
+    require   => [
+      File['/usr/local/bin/lokkit_check_config.sh'],
+      Exec['lokkit_clear'],
+    ],
     before    => Exec['lokkit_update'],
   }
 

@@ -35,21 +35,33 @@
 class lokkit {
   include lokkit::params
 
-# Install lokkit
+  # Install lokkit
   package { $lokkit::params::package:
-    ensure  => present,
+    ensure => present,
   }
 
-# This is a bit of a hack but is intended to keep iptables from restarting on
-# every puppet run. We'll make a copy of the existing iptables rules before
-# lokkit runs to compare the new configuration to. First we need to make sure
-# all the files are in place.
+  # Script the contents of the lokkit config file for the lines provided as arguments to the script.
+  file { '/usr/local/bin/lokkit_check_config.sh':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0755',
+    source  => 'puppet:///modules/lokkit/lokkit_check_config.sh',
+  }
+
+  # This is a bit of a hack but is intended to keep iptables from restarting on
+  # every puppet run. We'll make a copy of the existing lokkit config file
+  # before lokkit runs to compare the new configuration to. First we need to
+  # make sure all the files are in place.
+  $lokkit_config     = $lokkit::params::config_file
+  $lokkit_pre_config = "${lokkit::params::config_file}.pre_lokkit"
+
   file { [
     '/etc/sysconfig/iptables',
     '/etc/sysconfig/iptables.old',
-    '/etc/sysconfig/iptables.pre_lokkit',
-    $lokkit::params::config_file,
-    "${lokkit::params::config_file}.old",
+    $lokkit_config,
+    "${lokkit_config}.old",
+    $lokkit_pre_config,
   ]:
     ensure  => 'file',
     owner   => 'root',
@@ -58,31 +70,21 @@ class lokkit {
     require => Package[$lokkit::params::package],
   }
 
-# Now lets copy the current iptables rules if they don't match the previous copy
-  exec { 'iptables.pre_lokkit':
-    command => 'cp /etc/sysconfig/iptables{,.pre_lokkit}',
-    unless  => 'diff -q /etc/sysconfig/iptables{,.pre_lokkit} > /dev/null',
-    require => File['/etc/sysconfig/iptables.pre_lokkit'],
+  # Now lets copy the current lokkit config if they don't match the previous
+  # copy
+  exec { 'lokkit_pre_config':
+    command => "cp ${lokkit_config} ${lokkit_pre_config}",
+    unless  => "diff -q <(sort ${lokkit_config}) <(sort ${lokkit_pre_config})",
+    require => File[$lokkit_pre_config],
   }
 
-# Clear the existing firewall configuration so that we can start from scratch
-# changes are not applied until all lokkit defined resources have completed.
-# Note $lokkit::params::cmd always enables ssh so you don't lose connection
-# to the machine.
-  exec { 'lokkit_clear':
-    command   => "${lokkit::params::cmd} -n -f",
-    logoutput => on_failure,
-    require   => Exec['iptables.pre_lokkit'],
-    before    => Exec['lokkit_update'],
-  }
-
-# Update and restart the firewall
-# Note $lokkit::params::cmd always enables ssh so you don't lose connection
-# to the machine.
+  # Update and restart the firewall
+  # Note $lokkit::params::cmd always enables ssh so you don't lose connection
+  # to the machine.
   exec { 'lokkit_update':
-    command     => "${lokkit::params::cmd} --update",
-    logoutput   => on_failure,
-    unless      => 'diff -q /etc/sysconfig/iptables{,.pre_lokkit} > /dev/null',
+    command   => "${lokkit::params::cmd} --update",
+    logoutput => on_failure,
+    unless    =>
+      "diff -q <(sort ${lokkit_config}) <(sort ${lokkit_pre_config})",
   }
 }
-

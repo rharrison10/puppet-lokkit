@@ -48,20 +48,34 @@ define lokkit::services (
   include lokkit::params
 
   $services_real = $services ? {
-    undef   => [ $name ],
+    undef   => [$name],
     default => $services,
   }
+
   case type($services_real) {
-    string: { $service_switches = prefix(split($services_real, ' '), '--service=') }
-    array: { $service_switches = prefix($services_real, '--service=' ) }
-    default: { fail('services must be an array or string') }
+    string  : {
+      $service_switches = prefix(split($services_real, ' '), '--service=')
+    }
+    array   : {
+      $service_switches = prefix($services_real, '--service=')
+    }
+    default : {
+      fail('services must be an array or string')
+    }
   }
 
-  $cmd_args = shellquote($service_switches)
+  $cmd_args      = shellquote($service_switches)
+  $lokkit_config = $lokkit::params::config_file
+
   exec { "lokkit_services ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    unless    =>
+      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
-    require   => Exec['lokkit_clear'],
+    require   => [
+      File['/usr/local/bin/lokkit_check_config.sh'],
+      Exec['lokkit_clear'],
+    ],
     before    => Exec['lokkit_update'],
   }
 }

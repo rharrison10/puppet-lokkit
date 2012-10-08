@@ -1,0 +1,9 @@
+#!/bin/bash
+# Check the contents of the lokkit config file for the lines provides on the 
+CONFIG_FILE=$1
+
+if [ -f $CONFIG_FILE ] ; then
+  # The remaining arguments should be strings to check for.
+  shift
+else
+echo "The first argument to $0 must be 

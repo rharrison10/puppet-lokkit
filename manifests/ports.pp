@@ -46,46 +46,57 @@ define lokkit::ports (
   $tcpPorts = undef,
   $udpPorts = undef
 ) {
-  include lokkit
+  include ::lokkit
   include lokkit::params
 
   if $tcpPorts {
     case type($tcpPorts) {
-      string: {
-        $tcpPorts_switches  = regsubst(
-          $tcpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:tcp', 'G' )
+      string  : {
+        $tcpPorts_switches = regsubst($tcpPorts, '\d+-\d+|\d+[^- ]',
+        '--port=\0:tcp', 'G')
       }
-      array: {
-        $tcpPorts_switches  = join(
-          regsubst( $tcpPorts, '^\d+$|^\d+-\d+$', '--port=\0:tcp' ), ' ' )
+      array   : {
+        $tcpPorts_switches = join(regsubst($tcpPorts, '^\d+$|^\d+-\d+$',
+        '--port=\0:tcp'), ' ')
       }
-      default: { fail('tcpPorts must be an array or string') }
+      default : {
+        fail('tcpPorts must be an array or string')
+      }
     }
   } else {
-    $tcpPorts_switches  = ''
+    $tcpPorts_switches = ''
   }
 
   if $udpPorts {
     case type($udpPorts) {
-      string: {
-        $udpPorts_switches  = regsubst(
-          $udpPorts, '\d+-\d+|\d+[^- ]', '--port=\0:udp', 'G' )
+      string  : {
+        $udpPorts_switches = regsubst($udpPorts, '\d+-\d+|\d+[^- ]',
+        '--port=\0:udp', 'G')
       }
-      array: {
-        $udpPorts_switches  = join(
-          regsubst( $udpPorts, '^\d+$|^\d+-\d+$', '--port=\0:udp' ), ' ' )
+      array   : {
+        $udpPorts_switches = join(regsubst($udpPorts, '^\d+$|^\d+-\d+$',
+        '--port=\0:udp'), ' ')
       }
-      default: { fail('udpPorts must be an array or string') }
+      default : {
+        fail('udpPorts must be an array or string')
+      }
     }
   } else {
-    $udpPorts_switches  = ''
+    $udpPorts_switches = ''
   }
 
-  $cmd_args = "${tcpPorts_switches} ${udpPorts_switches}"
+  $cmd_args      = "${tcpPorts_switches} ${udpPorts_switches}"
+  $lokkit_config = $lokkit::params::config_file
+
   exec { "lokkit_ports ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    unless    =>
+      "/usr/local/bin/lokkit_check_config.sh ${lokkit_config} ${cmd_args}",
     logoutput => on_failure,
-    require   => Exec['lokkit_clear'],
+    require   => [
+      File['/usr/local/bin/lokkit_check_config.sh'],
+      Exec['lokkit_clear'],
+    ],
     before    => Exec['lokkit_update'],
   }
 }
