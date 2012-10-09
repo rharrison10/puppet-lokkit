@@ -2,20 +2,20 @@
 #
 # Clear the existing firewall configuration so that we can start from scratch
 # changes are not applied until all +lokkit+ defined resources have completed.
-# Note +$lokkit::params::cmd+ always enables ssh so you don't lose connection
-# to the machine.
+#
+# *Note*: The other classes and defines in this module have dependencies on +Exec['lokkit_clear']+ which is contained in this class.
+# You must either +include lokkit::clear+ in one of your manifests which will ensure the firewall configuration is cleared on every
+# run or you can pass a value to the +puppet_schedule+ parameter to this class to control when the firewall configuration is
+# cleared.
 #
 # === Parameters
 #
 # [*puppet_schedule*]
-#   Puppet
-#   +schedule[http://docs.puppetlabs.com/references/stable/type.html#schedule]+
-#   defining when the +lokkit+ configuration should be cleared.  By default the
-#   automatically created +'puppet'+ schedule is used so that the configuration
-#   will be cleared on every run.  If you only wish to ensure new configurations
-#   are applied and do not want to clear the configuration call the class using
-#   +'never'+ as the value for +schedule+.  You may also pass any valid schedule
-#   that you have defined elsewhere in the catalog.
+#   Puppet schedule[http://docs.puppetlabs.com/references/stable/type.html#schedule] defining when the +lokkit+ configuration should
+#   be cleared.  By default the automatically created +'puppet'+ schedule is used so that the configuration will be cleared on every
+#   run.  If you only wish to ensure new configurations are applied and do not want to clear the configuration call the class using
+#   +'never'+ as the value for +puppet_schedule+.  You may also pass any valid schedule that you have defined elsewhere in the
+#   catalog.
 #
 # === Examples
 #

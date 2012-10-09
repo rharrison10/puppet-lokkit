@@ -6,6 +6,39 @@ Manage iptables with lokkit.  This module uses the `lokkit` command line tool to
 
 **Warning**: This module will clear any existing iptables rules you already have in place. Currently it cannot be used with another means of managing iptables
 
+## Setup
+
+You must specifically include the `lokkit::clear` class somewhere in your manifest since the other module classes and defines depend on it.  It includes the commands to clear the firewall configuration in order to ensure you have a cleanly defined config.
+
+You will probably want to only have lokkit clear the firewall rules periodically rather than during every Puppet run because Puppet will report changes have been applied on every run it does clear.  Also because you are clearing the configuration the firewall will need to restart iptables once the specified configuration is complete. For more information on this see the documentation on the `lokkit::clear` class.
+
+## Classes
+
+### lokkit::clear
+
+Clear the existing firewall configuration so that we can start from scratch changes are not applied until all `lokkit` defined resources have completed.
+
+**Note**: The other classes and defines in this module have dependencies on `Exec['lokkit_clear']` which is contained in this class. You must either `include lokkit::clear` in one of your manifests which will ensure the firewall configuration is cleared on every run or you can pass a value to the `puppet_schedule` parameter to this class to control when the firewall configuration is cleared.
+
+#### Parameters
+
+##### puppet_schedule
+
+Puppet [schedule](http://docs.puppetlabs.com/references/stable/type.html#schedule) defining when the `lokkit` configuration should be cleared.  By default the automatically created `'puppet'` schedule is used so that the configuration will be cleared on every run.  If you only wish to ensure new configurations are applied and do not want to clear the configuration call the class using `'never'` as the value for `puppet_schedule`.  You may also pass any valid schedule that you have defined elsewhere in the catalog.
+
+#### Examples
+
+Only clear the `lokkit` configuration once daily during working hours.
+
+    schedule { 'daily_working_hours':
+      period  => daily,
+      range   => '9-17',
+    }
+
+    class { 'lokkit::clear':
+      puppet_schedule => 'daily_working_hours',
+    }
+
 ## Defined Types
 
 ### lokkit::custom
@@ -13,6 +46,8 @@ Manage iptables with lokkit.  This module uses the `lokkit` command line tool to
 Define iptables custom rules to apply via `lokkit --custom-rules`
 
 #### Parameters
+
+**Warning**: You may provide a value for `content` **or** `source` **not** both.
 
 ##### type
 
@@ -30,8 +65,6 @@ String containing the content of the custom rules file.
 
 The source location of a file containing the custom rules.
 
-**Warning**: You may provide a value for `content` or `source` *not* both.
-
 #### Examples
 
     lokkit::custom { 'example_raw' :
@@ -42,7 +75,9 @@ The source location of a file containing the custom rules.
 
 ### lokkit::services
 
-This will allow access to services `lokkit` knows how to manage on this node. *Notethis allows access for all connections to the ports managed by the service. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
+This will allow access to services `lokkit` knows how to manage on this node.
+
+**Note**: this allows access for all connections to the ports managed by the service. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
 
 #### Parameters
 
@@ -58,7 +93,9 @@ An array of services to be allowed on this node.  If nothing is provided for thi
 
 ### lokkit::ports
 
-This will allow access to specific ports and protocols. *Note* this allows access for all connections to the ports. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
+This will allow access to specific ports and protocols.
+
+**Note**: This allows access for all connections to the ports. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
 
 #### Parameters
 
@@ -78,9 +115,11 @@ An array of ports to allow incoming UDP traffic on. Ports may be specified indiv
     }
 
 ## TODO
+* Add unit tests
 * Blocking ICMP types
 * Interface management
 * Port forwarding
+* Removing configuration lines / ensuring they are absent
 * Migrate defined types to plugins
 
 Currently this module is developed against RHEL and should also work with Fedora and CentOS.  I don't use other distros so I'm unable to test them.  I will accept pull requests for patches to support your favorite distro of choice.
