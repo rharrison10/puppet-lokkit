@@ -7,7 +7,7 @@
 #
 # === Parameters
 #
-# [*schedule*]
+# [*puppet_schedule*]
 #   Puppet
 #   +schedule[http://docs.puppetlabs.com/references/stable/type.html#schedule]+
 #   defining when the +lokkit+ configuration should be cleared.  By default the
@@ -19,15 +19,15 @@
 #
 # === Examples
 #
-# Only clear the +lokkit+ configuration during working hours.
+# Only clear the +lokkit+ configuration once daily during working hours.
 #
-#  schedule { 'working_hours':
+#  schedule { 'daily_working_hours':
 #    period  => daily,
 #    range   => '9-17',
 #  }
 #
 #  class { 'lokkit::clear':
-#    schedule => 'working_hours',
+#    puppet_schedule => 'daily_working_hours',
 #  }
 #
 # === Copyright
@@ -52,7 +52,7 @@
 # with rharrison-lokkit. If not, see http://www.gnu.org/licenses/.
 #
 class lokkit::clear (
-  $schedule = 'puppet'
+  $puppet_schedule = 'puppet'
 ) {
   include ::lokkit
   include lokkit::params
@@ -62,6 +62,6 @@ class lokkit::clear (
     logoutput => on_failure,
     require   => Exec['lokkit_pre_config'],
     before    => Exec['lokkit_update'],
-    schedule  => $schedule,
+    schedule  => $puppet_schedule,
   }
 }
