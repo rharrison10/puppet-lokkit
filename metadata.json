@@ -1,6 +1,6 @@
 {
   "name": "rharrison-lokkit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "source": "https://github.com/rharrison10/puppet-lokkit",
   "author": "Russell Harrison",
   "license": "GPLv3+",
@@ -18,9 +18,9 @@
   ],
   "checksums": {
     "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
-    "ChangeLog.md": "124933a1f3f302c2dc9b2e1efaf54be6",
+    "ChangeLog.md": "07a31d0069bd8267d540ae15cfcfdfc3",
     "LICENSE": "d32239bcb673463ab874e80d47fae504",
-    "Modulefile": "29b39e46d79bb29314cdb537d6fd81ec",
+    "Modulefile": "5564188ecb2ef15f4c22ebb6be3c26ac",
     "README.md": "150007b74c4e0bee286f2ed6d8c65e96",
     "files/lokkit_chkconf_diff.sh": "ce7a5385cf98972b4b66bf3f48c914e0",
     "files/lokkit_chkconf_present.sh": "ed2543365a876d96d72b7622f5cb7b63",

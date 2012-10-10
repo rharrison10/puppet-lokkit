@@ -1,5 +1,5 @@
 name 'rharrison-lokkit'
-version '0.1.0'
+version '0.1.1'
 
 author 'Russell Harrison'
 license 'GPLv3+'
