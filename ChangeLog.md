@@ -1,17 +1,23 @@
+## 2012-10-30  Russell Harrison  <rharrison@fedoraproject.org>  0.1.2
+
+## Changes
+
+* Set default path for `exec` resources to fix Issue #1
+
 ## 2012-10-10  Russell Harrison  <rharrison@fedoraproject.org>  0.1.1
 
 ### Changes
 
-* Fixed bug preventing http from being enabled if https was already present.
+* Fixed bug preventing `http` from being enabled if `https` was already present.
 
 ## 2012-10-09  Russell Harrison  <rharrison@fedoraproject.org>  0.1.0
 
 ### Changes
 
 * Fixed bug creating command line when multiple ports are passed in as an array
-* Don't restart iptables unless the config has changed
+* Don't restart `iptables` unless the config has changed
 * Allow for not clearing the configs on every run. Adds a new class that must be present for the catalog to compile.
-* Check for changes to the config before running lokkit
+* Check for changes to the config before running `lokkit`
 
 ## 2012-09-29  Russell Harrison  <rharrison@fedoraproject.org>  0.0.1
 

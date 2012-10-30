@@ -82,6 +82,7 @@ define lokkit::custom (
   exec { "lokkit_custom ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
+    path      => $lokkit::params::exec_path,
     logoutput => on_failure,
     subscribe => File[$rules_file],
     require   => [

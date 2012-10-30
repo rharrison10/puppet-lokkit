@@ -59,6 +59,7 @@ class lokkit::clear (
 
   exec { 'lokkit_clear':
     command   => "${lokkit::params::cmd} -n -f",
+    path      => $lokkit::params::exec_path,
     logoutput => on_failure,
     require   => Exec['lokkit_pre_config'],
     before    => Exec['lokkit_update'],

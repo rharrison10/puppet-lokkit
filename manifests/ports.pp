@@ -75,6 +75,7 @@ define lokkit::ports (
   exec { "lokkit_ports ${name}":
     command   => "${lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
+    path      => $lokkit::params::exec_path,
     logoutput => on_failure,
     require   => [
       File['/usr/local/bin/lokkit_chkconf_present.sh'],

@@ -32,9 +32,16 @@
 # with rharrison-lokkit. If not, see http://www.gnu.org/licenses/.
 #
 class lokkit::params {
-
-  $package = 'system-config-firewall-base'
-  $cmd = '/usr/sbin/lokkit -q -s ssh'
-  $config_dir = '/etc/sysconfig'
+  $package     = 'system-config-firewall-base'
+  $cmd         = '/usr/sbin/lokkit -q -s ssh'
+  $config_dir  = '/etc/sysconfig'
   $config_file = "${config_dir}/system-config-firewall"
+  $exec_path   = [
+    '/usr/local/sbin',
+    '/usr/local/bin',
+    '/sbin',
+    '/bin',
+    '/usr/sbin',
+    '/usr/bin',
+  ]
 }
