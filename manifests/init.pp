@@ -94,7 +94,7 @@ class lokkit {
   # to the machine.
   exec { 'lokkit_update':
     command   => "${lokkit::params::cmd} --update",
-    unless    => "/usr/local/bin/lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config}",
+    unless    => "lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config} && lokkit_chkconf_diff.sh /etc/sysconfig/iptables /etc/sysconfig/iptables.old",
     path      => $lokkit::params::exec_path,
     logoutput => on_failure,
   }

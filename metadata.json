@@ -1,21 +1,12 @@
 {
   "name": "rharrison-lokkit",
-  "version": "0.1.1",
-  "source": "https://github.com/rharrison10/puppet-lokkit",
   "author": "Russell Harrison",
-  "license": "GPLv3+",
-  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
   "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",
+  "license": "GPLv3+",
   "project_page": "https://github.com/rharrison10/puppet-lokkit",
-  "dependencies": [
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">=2.2.0"
-    }
-  ],
-  "types": [
-
-  ],
+  "source": "https://github.com/rharrison10/puppet-lokkit",
+  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
+  "version": "0.1.1",
   "checksums": {
     "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
     "ChangeLog.md": "f68cd5de59e03aeafd4632ffecb4c22e",
@@ -26,12 +17,18 @@
     "files/lokkit_chkconf_present.sh": "ed2543365a876d96d72b7622f5cb7b63",
     "manifests/clear.pp": "3910b87bbdcd8a1e2aaaaf1966172327",
     "manifests/custom.pp": "83b43de95526b03daed3320a5dd1495c",
-    "manifests/init.pp": "36064efa5a96bce9897040b7dda6cf81",
+    "manifests/init.pp": "821cf20a3992e4d4dcc5b6122346d91c",
     "manifests/params.pp": "058e4a0ab8970fee3af565a5bc24531b",
     "manifests/ports.pp": "61c2ac12736e828f69c9fa0bbe0d4533",
     "manifests/services.pp": "ea0780c4ad65cc7ff2d312e6a476e21c",
     "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
     "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
     "tests/init.pp": "a275309dbc161a03ea8c9ed513cd6db5"
-  }
+  },
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": "\u003e\u003d2.2.0"
+    }
+  ]
 }
