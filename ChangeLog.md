@@ -1,3 +1,9 @@
+## 2013-03-19  Russell Harrison  <rharrison@fedoraproject.org>  0.1.3
+
+### Changes
+
+* Also reload the firewall if the previous iptables config doesn't match the current one.
+
 ## 2012-10-30  Russell Harrison  <rharrison@fedoraproject.org>  0.1.2
 
 ## Changes
