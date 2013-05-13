@@ -9,7 +9,7 @@
 #
 # === Examples
 #
-#  include lokkit
+#  include ::lokkit
 #
 # === Copyright
 #
@@ -33,10 +33,10 @@
 # with rharrison-lokkit. If not, see http://www.gnu.org/licenses/.
 #
 class lokkit {
-  include lokkit::params
+  include ::lokkit::params
 
   # Install lokkit
-  package { $lokkit::params::package:
+  package { $::lokkit::params::package:
     ensure => present,
   }
 
@@ -62,8 +62,8 @@ class lokkit {
   # every puppet run. We'll make a copy of the existing lokkit config file
   # before lokkit runs to compare the new configuration to. First we need to
   # make sure all the files are in place.
-  $lokkit_config     = $lokkit::params::config_file
-  $lokkit_pre_config = "${lokkit::params::config_file}.pre_lokkit"
+  $lokkit_config     = $::lokkit::params::config_file
+  $lokkit_pre_config = "${::lokkit::params::config_file}.pre_lokkit"
 
   file { [
     '/etc/sysconfig/iptables',
@@ -76,7 +76,7 @@ class lokkit {
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
-    require => Package[$lokkit::params::package],
+    require => Package[$::lokkit::params::package],
   }
 
   # Now lets copy the current lokkit config if they don't match the previous
@@ -84,18 +84,18 @@ class lokkit {
   exec { 'lokkit_pre_config':
     command   => "cp ${lokkit_config} ${lokkit_pre_config}",
     unless    => "/usr/local/bin/lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config}",
-    path      => $lokkit::params::exec_path,
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     require   => File[$lokkit_pre_config, '/usr/local/bin/lokkit_chkconf_diff.sh'],
   }
 
   # Update and restart the firewall
-  # Note $lokkit::params::cmd always enables ssh so you don't lose connection
+  # Note $::lokkit::params::cmd always enables ssh so you don't lose connection
   # to the machine.
   exec { 'lokkit_update':
-    command   => "${lokkit::params::cmd} --update",
+    command   => "${::lokkit::params::cmd} --update",
     unless    => "lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config} && lokkit_chkconf_diff.sh /etc/sysconfig/iptables /etc/sysconfig/iptables.old",
-    path      => $lokkit::params::exec_path,
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
   }
 }

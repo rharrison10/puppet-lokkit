@@ -44,8 +44,8 @@
 define lokkit::services (
   $services = undef
 ) {
-  include lokkit
-  include lokkit::params
+  include ::lokkit
+  include ::lokkit::params
 
   $services_real = $services ? {
     undef   => [$name],
@@ -59,12 +59,12 @@ define lokkit::services (
   }
 
   $cmd_args      = shellquote($service_switches)
-  $lokkit_config = $lokkit::params::config_file
+  $lokkit_config = $::lokkit::params::config_file
 
   exec { "lokkit_services ${name}":
-    command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    command   => "${::lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
-    path      => $lokkit::params::exec_path,
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     require   => [
       File['/usr/local/bin/lokkit_chkconf_present.sh'],

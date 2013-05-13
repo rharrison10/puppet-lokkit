@@ -56,8 +56,8 @@ define lokkit::custom (
   $content = undef,
   $source  = undef
 ) {
-  include lokkit
-  include lokkit::params
+  include ::lokkit
+  include ::lokkit::params
 
   if $content and $source {
     fail('Only one of content or source may be provided NOT both')
@@ -65,7 +65,7 @@ define lokkit::custom (
     fail('Something must be supplied for content or source')
   }
 
-  $rules_file = "${lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
+  $rules_file = "${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
 
   file { $rules_file:
     ensure  => file,
@@ -77,12 +77,12 @@ define lokkit::custom (
   }
 
   $cmd_args      = "--custom-rules=${type}:${table}:${rules_file}"
-  $lokkit_config = $lokkit::params::config_file
+  $lokkit_config = $::lokkit::params::config_file
 
   exec { "lokkit_custom ${name}":
-    command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    command   => "${::lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
-    path      => $lokkit::params::exec_path,
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     subscribe => File[$rules_file],
     require   => [

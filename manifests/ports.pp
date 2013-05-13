@@ -47,7 +47,7 @@ define lokkit::ports (
   $udpPorts = undef
 ) {
   include ::lokkit
-  include lokkit::params
+  include ::lokkit::params
 
   if $tcpPorts {
     case type($tcpPorts) {
@@ -70,12 +70,12 @@ define lokkit::ports (
   }
 
   $cmd_args      = "${tcpPorts_switches} ${udpPorts_switches}"
-  $lokkit_config = $lokkit::params::config_file
+  $lokkit_config = $::lokkit::params::config_file
 
   exec { "lokkit_ports ${name}":
-    command   => "${lokkit::params::cmd} -n ${cmd_args}",
+    command   => "${::lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
-    path      => $lokkit::params::exec_path,
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     require   => [
       File['/usr/local/bin/lokkit_chkconf_present.sh'],

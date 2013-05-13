@@ -4,7 +4,7 @@
 # changes are not applied until all +lokkit+ defined resources have completed.
 #
 # *Note*: The other classes and defines in this module have dependencies on +Exec['lokkit_clear']+ which is contained in this class.
-# You must either +include lokkit::clear+ in one of your manifests which will ensure the firewall configuration is cleared on every
+# You must either +include ::lokkit::clear+ in one of your manifests which will ensure the firewall configuration is cleared on every
 # run or you can pass a value to the +puppet_schedule+ parameter to this class to control when the firewall configuration is
 # cleared.
 #
@@ -26,7 +26,7 @@
 #    range   => '9-17',
 #  }
 #
-#  class { 'lokkit::clear':
+#  class { '::lokkit::clear':
 #    puppet_schedule => 'daily_working_hours',
 #  }
 #
@@ -55,11 +55,11 @@ class lokkit::clear (
   $puppet_schedule = 'puppet'
 ) {
   include ::lokkit
-  include lokkit::params
+  include ::lokkit::params
 
   exec { 'lokkit_clear':
-    command   => "${lokkit::params::cmd} -n -f",
-    path      => $lokkit::params::exec_path,
+    command   => "${::lokkit::params::cmd} -n -f",
+    path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     require   => Exec['lokkit_pre_config'],
     before    => Exec['lokkit_update'],

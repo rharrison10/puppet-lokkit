@@ -1,3 +1,9 @@
+## 2013-05-13  Russell Harrison  <rharrison@fedoraproject.org>  0.1.4
+
+### Changes
+
+* Move to absolute qualification of variables and classes to avoid https://projects.puppetlabs.com/issues/17335
+
 ## 2013-03-19  Russell Harrison  <rharrison@fedoraproject.org>  0.1.3
 
 ### Changes

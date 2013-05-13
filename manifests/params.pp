@@ -8,7 +8,7 @@
 #
 # === Examples
 #
-#  include lokkit::params
+#  include ::lokkit::params
 #
 # === Copyright
 #
