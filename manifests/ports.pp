@@ -71,16 +71,23 @@ define lokkit::ports (
 
   $cmd_args      = "${tcpPorts_switches} ${udpPorts_switches}"
   $lokkit_config = $::lokkit::params::config_file
+  # If the <code>lokkit::clear</code> class is defined we want to make sure this exec requires it so the clear happens before we
+  # start making changes.
+  $exec_require  = defined(Class['::lokkit::clear']) ? {
+    false   => File['/usr/local/bin/lokkit_chkconf_present.sh'],
+    default => [
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
+      Class['::lokkit::clear'],
+    ],
+  }
 
   exec { "lokkit_ports ${name}":
     command   => "${::lokkit::params::cmd} -n ${cmd_args}",
     unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
     path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
-    require   => [
-      File['/usr/local/bin/lokkit_chkconf_present.sh'],
-      Exec['lokkit_clear'],
-    ],
+    require   => $exec_require,
     before    => Exec['lokkit_update'],
   }
+
 }

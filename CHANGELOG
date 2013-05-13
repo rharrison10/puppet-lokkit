@@ -1,6 +1,7 @@
 2013-05-13  Russell Harrison  <rharrison@fedoraproject.org> - 0.2.0
     * Move to absolute qualification of variables and classes to avoid https://projects.puppetlabs.com/issues/17335
     * Rename and reformat CHANGELOG so the Puppet Forge can find and parse it
+    * Allow for not clearing the current firewall rules in cases where other tools / modules may also be making updates.
 
 2013-03-19  Russell Harrison  <rharrison@fedoraproject.org> - 0.1.3
     * Also reload the firewall if the previous iptables config doesn't match the current one.

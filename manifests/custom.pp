@@ -78,6 +78,15 @@ define lokkit::custom (
 
   $cmd_args      = "--custom-rules=${type}:${table}:${rules_file}"
   $lokkit_config = $::lokkit::params::config_file
+  # If the <code>lokkit::clear</code> class is defined we want to make sure this exec requires it so the clear happens before we
+  # start making changes.
+  $exec_require = defined(Class['::lokkit::clear']) ? {
+    false   => File['/usr/local/bin/lokkit_chkconf_present.sh'],
+    default => [
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
+      Class['::lokkit::clear'],
+    ],
+  }
 
   exec { "lokkit_custom ${name}":
     command   => "${::lokkit::params::cmd} -n ${cmd_args}",
@@ -85,10 +94,7 @@ define lokkit::custom (
     path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     subscribe => File[$rules_file],
-    require   => [
-      File['/usr/local/bin/lokkit_chkconf_present.sh'],
-      Exec['lokkit_clear'],
-    ],
+    require   => $exec_require,
     before    => Exec['lokkit_update'],
   }
 
