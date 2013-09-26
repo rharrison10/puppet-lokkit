@@ -1,3 +1,7 @@
+2013-09-25  Russell Harrison  <rharrison@fedoraproject.org> - 0.3.0
+    * Make sure the firewall is updated if the custom rules file changes.
+    * Add an ensure parameter for custom rules.
+
 2013-05-13  Russell Harrison  <rharrison@fedoraproject.org> - 0.2.0
     * Move to absolute qualification of variables and classes to avoid https://projects.puppetlabs.com/issues/17335
     * Rename and reformat CHANGELOG so the Puppet Forge can find and parse it

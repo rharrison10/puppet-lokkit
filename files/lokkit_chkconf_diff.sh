@@ -16,13 +16,13 @@ fi
 
 SORTED_ORIG=`mktemp --tmpdir orig.XXXXXXXXXX`
 
-sort $ORIG_FILE > $SORTED_ORIG
+sort $ORIG_FILE > $SORTED_ORIG 2> /dev/null
 
 SORTED_COMP=`mktemp --tmpdir comp.XXXXXXXXXX`
 
-sort $COMP_FILE > $SORTED_COMP
+sort $COMP_FILE > $SORTED_COMP 2> /dev/null
 
-diff -q $SORTED_ORIG $SORTED_COMP || {
+diff -q $SORTED_ORIG $SORTED_COMP &> /dev/null || {
   RETURN_CODE=$?
 }
 

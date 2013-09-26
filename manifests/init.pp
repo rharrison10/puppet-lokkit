@@ -58,12 +58,23 @@ class lokkit {
     source => 'puppet:///modules/lokkit/lokkit_chkconf_diff.sh',
   }
 
+  # Script to check that the contents of custom files haven't changed.
+  file { '/usr/local/bin/lokkit_chkconf_custom_diff.sh':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => 'puppet:///modules/lokkit/lokkit_chkconf_custom_diff.sh',
+  }
+
   # This is a bit of a hack but is intended to keep iptables from restarting on
   # every puppet run. We'll make a copy of the existing lokkit config file
   # before lokkit runs to compare the new configuration to. First we need to
   # make sure all the files are in place.
-  $lokkit_config     = $::lokkit::params::config_file
-  $lokkit_pre_config = "${::lokkit::params::config_file}.pre_lokkit"
+  $backup_postfix          = $lokkit::params::backup_postfix
+  $lokkit_config           = $::lokkit::params::config_file
+  $lokkit_pre_config       = "${::lokkit::params::config_file}${backup_postfix}"
+  $lokkit_custom_file_list = $::lokkit::params::custom_file_list
 
   file { [
     '/etc/sysconfig/iptables',
@@ -82,11 +93,21 @@ class lokkit {
   # Now lets copy the current lokkit config if they don't match the previous
   # copy
   exec { 'lokkit_pre_config':
-    command   => "cp ${lokkit_config} ${lokkit_pre_config}",
+    command   => "cp -f ${lokkit_config} ${lokkit_pre_config}",
     unless    => "/usr/local/bin/lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config}",
     path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
     require   => File[$lokkit_pre_config, '/usr/local/bin/lokkit_chkconf_diff.sh'],
+  }
+
+  # Now lets copy the current lokkit custom configs if they don't match the previous
+  # copy
+  exec { 'lokkit_pre_config_custom':
+    command   => "/usr/local/bin/lokkit_chkconf_custom_diff.sh --copy -c ${lokkit_config} -p ${backup_postfix}",
+    unless    => "/usr/local/bin/lokkit_chkconf_custom_diff.sh -c ${lokkit_config} -p ${backup_postfix}",
+    path      => $::lokkit::params::exec_path,
+    logoutput => on_failure,
+    require   => File[$lokkit_pre_config, '/usr/local/bin/lokkit_chkconf_custom_diff.sh'],
   }
 
   # Update and restart the firewall
@@ -94,8 +115,9 @@ class lokkit {
   # to the machine.
   exec { 'lokkit_update':
     command   => "${::lokkit::params::cmd} --update",
-    unless    => "lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config} && lokkit_chkconf_diff.sh /etc/sysconfig/iptables /etc/sysconfig/iptables.old",
+    unless    => "lokkit_chkconf_diff.sh ${lokkit_config} ${lokkit_pre_config} && lokkit_chkconf_diff.sh /etc/sysconfig/iptables /etc/sysconfig/iptables.old && lokkit_chkconf_custom_diff.sh -c ${lokkit_config} -p ${backup_postfix}",
     path      => $::lokkit::params::exec_path,
     logoutput => on_failure,
   }
+
 }

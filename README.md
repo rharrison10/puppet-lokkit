@@ -49,6 +49,10 @@ Define iptables custom rules to apply via `lokkit --custom-rules`
 
 **Warning**: You may provide a value for `content` **or** `source` **not** both.
 
+##### ensure
+
+Ensure the custom rules are `present` (default) or `absent`
+
 ##### type
 
 Which ip protocol the rules are written for.  Either `'ipv4'` or `'ipv6'`

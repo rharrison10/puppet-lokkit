@@ -4,16 +4,15 @@
 #
 # === Parameters
 #
+# [*ensure*]
+#   Ensure the custom rules are <code>present</code> (default) or <code>absent</code>
 # [*type*]
 #   Which ip protocol the rules are written for.  Either +'ipv4'+ or +'ipv6'+
-#
 # [*table*]
 #   The iptables table to apply the rules to. The default is +'filter'+. Other
 #   valid values are +'nat'+, +'mangle'+, +'raw'+, and +'security'+.
-#
 # [*content*]
 #   String containing the content of the custom rules file.
-#
 # [*source*]
 #   The source location of a file containing the custom rules.
 #
@@ -51,6 +50,7 @@
 # with rharrison-lokkit. If not, see http://www.gnu.org/licenses/.
 #
 define lokkit::custom (
+  $ensure  = 'present',
   $type    = 'ipv4',
   $table   = 'filter',
   $content = undef,
@@ -59,43 +59,70 @@ define lokkit::custom (
   include ::lokkit
   include ::lokkit::params
 
+  validate_re($ensure, '(absent|present)')
+
   if $content and $source {
     fail('Only one of content or source may be provided NOT both')
   } elsif !$content and !$source {
     fail('Something must be supplied for content or source')
   }
 
-  $rules_file = "${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
+  $rules_file     = "${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
+  $backup_postfix = $lokkit::params::backup_postfix
 
+  # Make sure the firewall is updated if the custom rules file changes.
   file { $rules_file:
-    ensure  => file,
+    ensure  => $ensure,
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
     content => $content,
     source  => $source,
+    require => Exec['lokkit_pre_config_custom'],
+  }
+
+  file { "${rules_file}${backup_postfix}":
+    ensure  => $ensure,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    require => Exec['lokkit_pre_config_custom'],
   }
 
   $cmd_args      = "--custom-rules=${type}:${table}:${rules_file}"
   $lokkit_config = $::lokkit::params::config_file
   # If the <code>lokkit::clear</code> class is defined we want to make sure this exec requires it so the clear happens before we
   # start making changes.
-  $exec_require = defined(Class['::lokkit::clear']) ? {
-    false   => File['/usr/local/bin/lokkit_chkconf_present.sh'],
+  $exec_require  = defined(Class['::lokkit::clear']) ? {
+    false   => [
+      File[$rules_file, '/usr/local/bin/lokkit_chkconf_present.sh'],
+      Exec['lokkit_pre_config'],
+    ],
     default => [
-      File['/usr/local/bin/lokkit_chkconf_present.sh'],
+      File[$rules_file, '/usr/local/bin/lokkit_chkconf_present.sh'],
       Class['::lokkit::clear'],
+      Exec['lokkit_pre_config'],
     ],
   }
 
-  exec { "lokkit_custom ${name}":
-    command   => "${::lokkit::params::cmd} -n ${cmd_args}",
-    unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
-    path      => $::lokkit::params::exec_path,
-    logoutput => on_failure,
-    subscribe => File[$rules_file],
-    require   => $exec_require,
-    before    => Exec['lokkit_update'],
+  if $ensure == 'present' {
+    exec { "lokkit_custom ${name} ensure":
+      command   => "${::lokkit::params::cmd} -n ${cmd_args}",
+      unless    => "/usr/local/bin/lokkit_chkconf_present.sh ${lokkit_config} ${cmd_args}",
+      path      => $::lokkit::params::exec_path,
+      logoutput => on_failure,
+      subscribe => File[$rules_file],
+      require   => $exec_require,
+      before    => Exec['lokkit_update'],
+    }
+  } else {
+    augeas { "lokkit_custom ${name} remove":
+      context => '/files/etc/sysconfig/system-config-firewall',
+      incl    => '/etc/sysconfig/system-config-firewall',
+      lens    => 'Lokkit.lns',
+      changes => "rm custom-rules[ . = \"${rules_file}\" ]",
+      require => $exec_require,
+      before  => Exec['lokkit_update'],
+    }
   }
-
 }
