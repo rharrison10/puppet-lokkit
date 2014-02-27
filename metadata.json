@@ -1,6 +1,6 @@
 {
   "name": "rharrison-lokkit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
   "author": "Russell Harrison",
   "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",

@@ -1,0 +1,14 @@
+<%- if @tcpPorts_cleaned -%>
+  <%- @tcpPorts_cleaned.each do |tcp_port| -%>
+    <%- @source_ips.each do |ip_addr| -%>
+-A INPUT -m state --state NEW -p tcp -m tcp -s ${ip_addr} --dport ${tcp_port} -j ACCEPT
+    <%- end -%>
+  <%- end -%>
+<%- end -%>
+<%- if @udpPorts_cleaned -%>
+  <%- @udpPorts_cleaned.each do |udp_port| -%>
+    <%- @source_ips.each do |ip_addr| -%>
+-A INPUT -m state --state NEW -p udp -m udp -s ${ip_addr} --dport ${udp_port} -j ACCEPT
+    <%- end -%>
+  <%- end -%>
+<%- end -%>

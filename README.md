@@ -118,6 +118,36 @@ An array of ports to allow incoming UDP traffic on. Ports may be specified indiv
       tcpPorts  => [ '8140' ],
     }
 
+### lokkit::ports_from_ip4
+
+Define iptables custom rules to open ports only for specific IPv4 source networks.
+
+#### Parameters
+
+##### ensure
+
+Ensure the custom rules are `present` (default) or `absent`
+
+##### source_ips
+
+An array of source IPv4 network ranges to allow traffic from on the provided ports. A network IP address (with /mask), or a plain IP address is acceptable as members of the array.
+
+##### tcpPorts
+
+An array of ports to allow incoming TCP traffic on. Ports may be specified individually or as a range of ports. e.g. `['8080', '9101-9103', '8090:8099']`.
+
+##### udpPorts
+
+An array of ports to allow incoming UDP traffic on. Ports may be specified individually or as a range of ports. e.g. `['8080', '9101-9103', '8090:8099']`.
+
+#### Examples
+
+    lokkit::ports_from_ip4 { 'example_service_from_internal' :
+      ensure     => present,
+      source_ips => ['10.0.0.0/8'],
+      tcpPorts   => ['8080', '9101-9103', '8090:8099'],
+    }
+
 ## TODO
 * Add unit tests
 * Blocking ICMP types
