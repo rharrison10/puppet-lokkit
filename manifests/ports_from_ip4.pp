@@ -55,11 +55,13 @@ define lokkit::ports_from_ip4 (
   include ::lokkit
   include ::lokkit::params
 
-  validate_re($ensure, '(absent|present)')
-  # There's a shorter way to validate the ip input I'm sure.
-  validate_re(
-    join($source_ips, ','),
-    '^((\d{1,3})(\.(\d{1,3})){3,}(\/\d{1,2}|[\/-](\d{1,3})(\.(\d{1,3})){3,})?,)*(\d{1,3})(\.(\d{1,3})){3,}(\/\d{1,2}|[\/-](\d{1,3})(\.(\d{1,3})){3,})?$'
+  validate_re($ensure, '(absent|present)', "ensure=${ensure} must be absent or present")
+
+  #FIXME There's a shorter way to validate the ip input I'm sure.
+  $source_ips_string = join($source_ips, ',')
+  validate_re( $source_ips_string,
+    '^((\d{1,3})(\.(\d{1,3})){3,}(\/\d{1,2}|[\/-](\d{1,3})(\.(\d{1,3})){3,})?,)*(\d{1,3})(\.(\d{1,3})){3,}(\/\d{1,2}|[\/-](\d{1,3})(\.(\d{1,3})){3,})?$',
+    "source_ips = [${source_ips_string}] All must be a valid IPv4 address or network"
   )
 
   if $tcpPorts {

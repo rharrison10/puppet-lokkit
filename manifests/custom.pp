@@ -59,7 +59,9 @@ define lokkit::custom (
   include ::lokkit
   include ::lokkit::params
 
-  validate_re($ensure, '(absent|present)')
+  validate_re($ensure, '(absent|present)', "ensure must be absent or present you provided ${ensure}")
+  validate_re($type, '(ipv4|ipv6)', "type=${type} must be 'ipv4' or 'ipv6'")
+  validate_re($table, '(filter|nat|mangle|raw|security)', "table=${table} must be one of filter, nat, mangle, raw, or security")
 
   if $content and $source {
     fail('Only one of content or source may be provided NOT both')
@@ -68,6 +70,7 @@ define lokkit::custom (
   }
 
   $rules_file     = regsubst("${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}", '[^\w\/-]', '_', 'G')
+  validate_absolute_path($rules_file)
   $backup_postfix = $lokkit::params::backup_postfix
 
   # Make sure the firewall is updated if the custom rules file changes.
