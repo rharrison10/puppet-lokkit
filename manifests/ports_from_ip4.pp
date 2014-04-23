@@ -9,6 +9,7 @@
 # [*source_ips*]
 #   An array of source IPv4 network ranges to allow traffic from on the provided ports. A network IP address (with /mask), or a
 #   plain IP address is acceptable as members of the array.
+#   e.g <code>['192.168.1.5', '192.168.1.0/24', '192.168.1.0/255.255.255.0','192.168.1.1-192.168.254']</code>
 # [*tcpPorts*]
 #   An array of ports to allow incoming TCP traffic on. Ports may be specified
 #   individually or as a range of ports. e.g. <code>[ '8080', '9101-9103', '8090:8099' ]</code>.

@@ -1,6 +1,6 @@
 # == Class: lokkit::params
 #
-# Default values for variables in the +lokkit+ module.
+# Default values for variables in the <code>lokkit</code> module.
 #
 # === Parameters
 #

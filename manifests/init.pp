@@ -1,6 +1,6 @@
 # == Class: lokkit
 #
-# This ensures that +lokkit+ is installed and the firewall is enabled
+# This ensures that <code>lokkit<code> is installed and the firewall is enabled
 # It is also included by the defined resource types in this module.
 #
 # === Parameters

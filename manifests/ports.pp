@@ -2,17 +2,17 @@
 #
 # This will allow access to specific ports and protocols.
 # *Note* this allows access for all connections to the ports. If you wish to
-# define more fine grained access to these ports use +lokkit::custom+ instead.
+# define more fine grained access to these ports use <code>lokkit::custom</code> instead.
 #
 # === Parameters
 #
 # [*tcpPorts*]
 #   An array of ports to allow incoming TCP traffic on. Ports may be specified
-#   individually or as a range of ports. e.g. +[ '8080', '9101-9103' ]+.
+#   individually or as a range of ports. e.g. <code>[ '8080', '9101-9103' ]</code>
 #
 # [*udpPorts*]
 #   An array of ports to allow incoming UDP traffic on. Ports may be specified
-#   individually or as a range of ports. e.g. +[ '8080', '9101-9103' ]+.
+#   individually or as a range of ports. e.g. <code>[ '8080', '9101-9103' ]</code>
 #
 # === Examples
 #

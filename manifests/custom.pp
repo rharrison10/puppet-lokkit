@@ -1,16 +1,16 @@
 # == Define: lokkit::custom
 #
-# Define iptables custom rules to apply via +lokkit --custom-rules+
+# Define iptables custom rules to apply via <code>lokkit --custom-rules</code>
 #
 # === Parameters
 #
 # [*ensure*]
 #   Ensure the custom rules are <code>present</code> (default) or <code>absent</code>
 # [*type*]
-#   Which ip protocol the rules are written for.  Either +'ipv4'+ or +'ipv6'+
+#   Which ip protocol the rules are written for.  Either <code>'ipv4'</code> (default) or <code>'ipv6'</code>
 # [*table*]
-#   The iptables table to apply the rules to. The default is +'filter'+. Other
-#   valid values are +'nat'+, +'mangle'+, +'raw'+, and +'security'+.
+#   The iptables table to apply the rules to. The default is <code>'filter'</code>. Other
+#   valid values are <code>'nat'</code>, <code>'mangle'</code>, <code>'raw'</code>, and <code>'security'</code>.
 # [*content*]
 #   String containing the content of the custom rules file.
 # [*source*]
@@ -18,7 +18,7 @@
 #
 # ==== Warning
 #
-# You may provide a value for +content+ or +source+ *not* both.
+# You may provide a value for <code>content</code> or <code>source</code> *not* both.
 #
 # === Examples
 #

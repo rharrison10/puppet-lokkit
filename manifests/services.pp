@@ -1,17 +1,17 @@
 # == Define: lokkit::services
 #
-# This will allow access to services +lokkit+ knows how to manage on this node.
+# This will allow access to services <code>lokkit</code> knows how to manage on this node.
 # *Note* this allows access for all connections to the ports managed by the
 # service. If you wish to define more fine grained access to these ports use
-# +lokkit::custom+ instead.
+# <code>lokkit::custom</code> instead.
 #
 # === Parameters
 #
 # [*services*]
 #   An array of services to be allowed on this node.  If nothing is provided
 #   for this parameter the default is to allow the single service provided by
-#   +$name+.  Valid values for services to be enabled can be found by
-#   running +lokkit --list-services+ on a node with the same OS and release as
+#   <code>$name</code>.  Valid values for services to be enabled can be found by
+#   running <code>lokkit --list-services</code> on a node with the same OS and release as
 #   the node you will be configuring.
 #
 # === Examples
