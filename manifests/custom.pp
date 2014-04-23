@@ -67,7 +67,7 @@ define lokkit::custom (
     fail('Something must be supplied for content or source')
   }
 
-  $rules_file     = "${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}"
+  $rules_file     = regsubst("${::lokkit::params::config_dir}/lokkit-${type}-${table}-${name}", '[^\w\/-]', '_', 'G')
   $backup_postfix = $lokkit::params::backup_postfix
 
   # Make sure the firewall is updated if the custom rules file changes.
