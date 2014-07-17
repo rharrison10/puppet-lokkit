@@ -74,8 +74,12 @@ define lokkit::ports (
   # If the <code>lokkit::clear</code> class is defined we want to make sure this exec requires it so the clear happens before we
   # start making changes.
   $exec_require  = defined(Class['::lokkit::clear']) ? {
-    false   => File['/usr/local/bin/lokkit_chkconf_present.sh'],
+    false   => [
+      File['/usr/local/bin/lokkit_chkconf_present.sh'],
+      Exec['lokkit_pre_config'],
+    ],
     default => [
+      Exec['lokkit_pre_config'],
       File['/usr/local/bin/lokkit_chkconf_present.sh'],
       Class['::lokkit::clear'],
     ],
