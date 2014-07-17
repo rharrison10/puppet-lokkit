@@ -1,18 +1,41 @@
 {
-  "name": "rharrison-lokkit",
-  "version": "0.4.0",
-  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
   "author": "Russell Harrison",
-  "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",
+  "checksums": {
+    "CHANGELOG": "7edf84bde6c7cb66f8a7d2d043a8871d",
+    "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
+    "LICENSE": "d32239bcb673463ab874e80d47fae504",
+    "Modulefile": "7a832c6473d3a92f5b8b0756a8e0db6e",
+    "README.md": "1ecdcb7a21f19076140a6ff2ae57dacc",
+    "files/lokkit_chkconf_custom_diff.sh": "b6f19f87b5819d144851172a9a52821d",
+    "files/lokkit_chkconf_diff.sh": "0ed1fcc1f054604964b75a09673f675d",
+    "files/lokkit_chkconf_present.sh": "ed2543365a876d96d72b7622f5cb7b63",
+    "manifests/clear.pp": "1ff7df57ee9bfd09e93ed1c00b2c0a1d",
+    "manifests/custom.pp": "5f2d0967cb25d4682ef263715ae0edfc",
+    "manifests/init.pp": "8e83dfc2b4bcbfc7c9b760b49509a72b",
+    "manifests/module.pp": "7de70154df7227bfa1c095de539c13bc",
+    "manifests/params.pp": "f5af72b8c068c89544548dc6af2b9542",
+    "manifests/ports.pp": "40acbe2634913b86812644d79a64b11e",
+    "manifests/ports_from_ip4.pp": "fccb58279e4f42aa250a1e7059b28f19",
+    "manifests/services.pp": "b73cf0bb4c45035382d48dcc5c1fa2ef",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "spec/spec_helper.rb": "ca19ec4f451ebc7fdb035b52eae6e909",
+    "templates/ports_from_ip4.erb": "4bebd370b11dc1a8c5ee024ce8e16a4e",
+    "tests/init.pp": "448d965c470f214bffa02c47ae8e1cb4"
+  },
   "dependencies": [
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": "\u003e\u003d2.2.0"
+      "version_requirement": ">=2.2.0"
     }
   ],
-  "types": [],
-  "checksums": {},
-  "source": "https://github.com/rharrison10/puppet-lokkit",
+  "description": "Manage iptables with lokkit.  This module uses the lokkit command line tool to allow access to ports and services   You can also supply a set of custom iptables rules in a file using the lokkit::custom defined type.",
+  "license": "GPLv3+",
+  "name": "rharrison-lokkit",
   "project_page": "https://github.com/rharrison10/puppet-lokkit",
-  "license": "GPLv3+"
+  "source": "https://github.com/rharrison10/puppet-lokkit",
+  "summary": "Use lokkit to manage the iptables firewall.  More convenient than working with iptables directly.",
+  "types": [
+
+  ],
+  "version": "0.5.0"
 }

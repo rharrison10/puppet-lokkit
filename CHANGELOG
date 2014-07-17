@@ -1,5 +1,15 @@
+2014-07-14  Russell Harrison  <rharrison@fedoraproject.org> - 0.5.0
+    * Add the lokkit::module define to allow for adding and removing iptables modules to the configuration.
+    * Fix a missing dependency which might result in the firewall not being updated.
+
+2014-04-23  Russell Harrison  <rharrison@fedoraproject.org> - 0.4.1
+    * Handle cases where spaces or characters invalid in file names are provided as the name of the define
+    * RDoc documentation clean up
+    * Better parameter validation
+
 2014-02-27  Russell Harrison  <rharrison@fedoraproject.org> - 0.4.0
     * Add lokkit::ports_from_ip4 define to simplify the common task of allowing traffic to ports only from specific networks.
+
 2013-09-25  Russell Harrison  <rharrison@fedoraproject.org> - 0.3.0
     * Make sure the firewall is updated if the custom rules file changes.
     * Add an ensure parameter for custom rules.

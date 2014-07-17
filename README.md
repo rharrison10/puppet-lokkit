@@ -77,22 +77,24 @@ The source location of a file containing the custom rules.
       content => template('example/iptables-custom_raw.erb'),
     }
 
-### lokkit::services
+### lokkit::module
 
-This will allow access to services `lokkit` knows how to manage on this node.
-
-**Note**: this allows access for all connections to the ports managed by the service. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
+This will add or remove an iptables module from the firewall configuration.
 
 #### Parameters
 
-##### services
+##### ensure
+Should the module be `present` (default) or `absent` from the fire wall config.
 
-An array of services to be allowed on this node.  If nothing is provided for this parameter the default is to allow the single service provided by `$name`.  Valid values for services to be enabled can be found by running `lokkit --list-services` on a node with the same OS and release as the node you will be configuring.
+##### module
 
-#### Examples
+The name of the iptables module to manage.
 
-    lokkit::services { 'apache' :
-      services  => [ 'http', 'https' ],
+### Examples
+
+    lokkit::module { 'puppet master' :
+      ensure => 'present',
+      module => 'nf_conntrack',
     }
 
 ### lokkit::ports
@@ -148,6 +150,23 @@ An array of ports to allow incoming UDP traffic on. Ports may be specified indiv
       tcpPorts   => ['8080', '9101-9103', '8090:8099'],
     }
 
+### lokkit::services
+
+This will allow access to services `lokkit` knows how to manage on this node.
+
+**Note**: this allows access for all connections to the ports managed by the service. If you wish to define more fine grained access to these ports use `lokkit::custom` instead.
+
+#### Parameters
+
+##### services
+
+An array of services to be allowed on this node.  If nothing is provided for this parameter the default is to allow the single service provided by `$name`.  Valid values for services to be enabled can be found by running `lokkit --list-services` on a node with the same OS and release as the node you will be configuring.
+
+#### Examples
+
+    lokkit::services { 'apache' :
+      services  => [ 'http', 'https' ],
+    }
 ## TODO
 * Add unit tests
 * Blocking ICMP types
