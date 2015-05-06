@@ -120,4 +120,12 @@ class lokkit {
     logoutput => on_failure,
   }
 
+  # sort the custom rules by name (only if they're not already sorted)
+  exec{ 'sort_lokkit_custom':
+    provider => 'shell',
+    unless   => "awk '/^--custom-rules=/ { if (\$0 < l) {e=1; exit 1}; l=\$0; next} {l=\"\"} END{exit e}' ${lokkit_config}",
+    # in-place edit ${lokkit_config} such that the group of --custom-rules is sorted
+    command  => "awk '/^--custom-rules=/ { f=1; a[\$0]=0; next } f { f=0; n=asorti(a); for (i=1;i<=n;i++) print a[i]; delete a}; {print}' < ${lokkit_config} 1<> ${lokkit_config}",
+    notify   => Exec['lokkit_update'],
+  }
 }

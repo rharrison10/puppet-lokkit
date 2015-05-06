@@ -1,17 +1,17 @@
 {
   "author": "Russell Harrison",
   "checksums": {
-    "CHANGELOG": "7edf84bde6c7cb66f8a7d2d043a8871d",
+    "CHANGELOG": "5dafda5a92bc4547a23daa69e57df1e5",
     "COPYING": "1685d8bd92ee4813b33ff9972f3092e8",
     "LICENSE": "d32239bcb673463ab874e80d47fae504",
     "Modulefile": "7a832c6473d3a92f5b8b0756a8e0db6e",
-    "README.md": "1ecdcb7a21f19076140a6ff2ae57dacc",
+    "README.md": "e5917661c7a17133b62f36d3c3ea49da",
     "files/lokkit_chkconf_custom_diff.sh": "b6f19f87b5819d144851172a9a52821d",
     "files/lokkit_chkconf_diff.sh": "0ed1fcc1f054604964b75a09673f675d",
     "files/lokkit_chkconf_present.sh": "ed2543365a876d96d72b7622f5cb7b63",
     "manifests/clear.pp": "1ff7df57ee9bfd09e93ed1c00b2c0a1d",
-    "manifests/custom.pp": "5f2d0967cb25d4682ef263715ae0edfc",
-    "manifests/init.pp": "8e83dfc2b4bcbfc7c9b760b49509a72b",
+    "manifests/custom.pp": "df4f42342871ed0f48308b44db9c943f",
+    "manifests/init.pp": "2894824056033d4d52aac4b5e48fb3b5",
     "manifests/module.pp": "7de70154df7227bfa1c095de539c13bc",
     "manifests/params.pp": "f5af72b8c068c89544548dc6af2b9542",
     "manifests/ports.pp": "40acbe2634913b86812644d79a64b11e",
@@ -37,5 +37,5 @@
   "types": [
 
   ],
-  "version": "0.5.0"
+  "version": "0.5.1"
 }
