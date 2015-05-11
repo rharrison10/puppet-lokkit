@@ -1,3 +1,6 @@
+2015-05-11  Joel Smith  <joelsmith@fedoraproject.org> - 0.5.2
+    * Refresh the firewall if it's not running
+
 2015-05-05  Joel Smith  <joelsmith@fedoraproject.org> - 0.5.1
     * sort --custom-rules to guarantee determanistic relative ordering
 
