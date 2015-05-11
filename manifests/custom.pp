@@ -2,6 +2,11 @@
 #
 # Define iptables custom rules to apply via <code>lokkit --custom-rules</code>
 #
+# Note: if you have more than one set of custom rules, the rule sets will be
+# loaded in an order corresponding to the name of the set. For example, a
+# custom rule set named 000-input would be applied before a rule set named
+# 999-input-log.
+#
 # === Parameters
 #
 # [*ensure*]
@@ -116,7 +121,10 @@ define lokkit::custom (
       logoutput => on_failure,
       subscribe => File[$rules_file],
       require   => $exec_require,
-      before    => Exec['lokkit_update'],
+      before    => [
+                     Exec['lokkit_update'],
+                     Exec['sort_lokkit_custom'],
+                   ],
     }
   } else {
     augeas { "lokkit_custom ${name} remove":
